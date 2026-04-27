@@ -2,16 +2,17 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import TrueFocus from "./TrueFocus"
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0d1a1c]">
-
       <Image
         src="/images/flyer-main1.jpg"
         alt="Hydra Beauty"
         fill
         priority
+        sizes="100vw"
         className="object-cover opacity-30 scale-105"
       />
 
@@ -38,9 +39,7 @@ export default function Hero() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center pt-28">
-
         <div className="flex flex-col gap-7">
-
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -63,11 +62,17 @@ export default function Hero() {
               Hydra
             </span>
 
-            <h1 className="font-cormorant italic text-5xl md:text-6xl lg:text-7xl text-[#f0e8dd] leading-tight">
-              Hydra <span className="text-[#b89a6e]">Beauty</span>
-            </h1>
+            <TrueFocus
+              sentence="Hydra Beauty"
+              manualMode={false}
+              blurAmount={8}
+              borderColor="#b89a6e"
+              glowColor="rgba(184, 154, 110, 0.55)"
+              animationDuration={0.7}
+              pauseBetweenAnimations={5}
+            />
 
-            <p className="font-cormorant italic text-2xl lg:text-3xl text-[#c8beb4] mt-2">
+            <p className="font-cormorant italic text-2xl lg:text-3xl text-[#c8beb4] mt-3">
               Institut de beauté
             </p>
           </motion.div>
@@ -114,7 +119,6 @@ export default function Hero() {
               </div>
             </div>
           </motion.div>
-
         </div>
 
         <motion.div
@@ -124,7 +128,6 @@ export default function Hero() {
           className="flex justify-center"
         >
           <div className="relative w-[320px] h-[320px] md:w-[460px] md:h-[460px]">
-
             <div className="absolute inset-0 rounded-full border border-[#b89a6e]/20 animate-pulse" />
             <div className="absolute inset-4 rounded-full border border-[#b89a6e]/10" />
 
@@ -137,10 +140,8 @@ export default function Hero() {
                 className="w-full h-full object-cover hover:scale-105 transition duration-700"
               />
             </div>
-
           </div>
         </motion.div>
-
       </div>
     </section>
   )
