@@ -1,150 +1,56 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
-type FocusRect = {
-  x: number
-  y: number
-  width: number
-  height: number
-}
+const words = [
+  { text: "Hydra", color: "#f0e8dd" },
+  { text: "Beauty", color: "#b89a6e" },
+]
 
-type TrueFocusProps = {
-  sentence: string
-}
-
-export default function TrueFocus({ sentence }: TrueFocusProps) {
-  const words = sentence.split(" ")
-  const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [focusRect, setFocusRect] = useState<FocusRect>({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-  })
-
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const wordRefs = useRef<(HTMLSpanElement | null)[]>([])
+export default function TrueFocus() {
+  const [focusIndex, setFocusIndex] = useState(0)
 
   useEffect(() => {
-    setCurrentIndex(0)
-  }, [sentence])
-
-  useEffect(() => {
-    if (words.length <= 1) return
-
-    const timeout = setTimeout(() => {
-      setCurrentIndex(1)
-    }, 5000)
-
-    return () => clearTimeout(timeout)
-  }, [words.length])
-
-  useEffect(() => {
-    if (!wordRefs.current[currentIndex] || !containerRef.current) return
-
-    const parentRect = containerRef.current.getBoundingClientRect()
-    const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect()
-
-    setFocusRect({
-      x: activeRect.left - parentRect.left,
-      y: activeRect.top - parentRect.top,
-      width: activeRect.width,
-      height: activeRect.height,
-    })
-  }, [currentIndex, words.length])
-
-  const handleMouseEnter = (index: number) => {
-    setCurrentIndex(index)
-  }
+    const interval = setInterval(() => {
+      setFocusIndex((prev) => (prev + 1) % words.length)
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative inline-flex flex-wrap gap-2"
-    >
-      {words.map((word, index) => {
-        const isActive = index === currentIndex
-        return (
-          <span
-            key={`${word}-${index}`}
-            ref={(el) => {
-              wordRefs.current[index] = el
-            }}
-            onMouseEnter={() => handleMouseEnter(index)}
-            className="font-cormorant italic text-5xl md:text-6xl lg:text-7xl leading-tight"
-            style={{
-              color: isActive ? "#f0e8dd" : "#c8beb4",
-              filter: isActive ? "blur(0px)" : "blur(8px)",
-              transition: "filter 0.7s ease, color 0.7s ease",
-            }}
-          >
-            {word}
-          </span>
-        )
-      })}
-
-      {words.length > 0 && (
-        <motion.div
-          className="absolute pointer-events-none"
-          animate={{
-            x: focusRect.x,
-            y: focusRect.y,
-            width: focusRect.width,
-            height: focusRect.height,
+    <h1 className="flex items-center gap-3 flex-nowrap">
+      {words.map((word, i) => (
+        <span
+          key={word.text}
+          className="relative font-cormorant italic leading-none transition-all duration-700 inline-flex items-center justify-center px-3 py-1"
+          style={{
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+            color: word.color,
+            filter: focusIndex === i ? "blur(0px)" : "blur(2.5px)",
+            opacity: focusIndex === i ? 1 : 0.3,
+            textShadow: focusIndex === i
+              ? `0 0 25px rgba(184,154,110,0.6), 0 0 50px rgba(184,154,110,0.2)`
+              : "none",
+            transition: "all 0.7s ease",
           }}
-          transition={{ duration: 0.7 }}
         >
-          <div
-            className="absolute inset-[-6px] rounded-lg"
-            style={{
-              boxShadow: "0 0 32px rgba(184, 154, 110, 0.55)",
-              opacity: 0.55,
-            }}
-          />
-          <span
-            className="absolute w-4 h-4 border-[2px] rounded-[2px]"
-            style={{
-              top: "-6px",
-              left: "-6px",
-              borderColor: "#b89a6e",
-              borderRightColor: "transparent",
-              borderBottomColor: "transparent",
-            }}
-          />
-          <span
-            className="absolute w-4 h-4 border-[2px] rounded-[2px]"
-            style={{
-              top: "-6px",
-              right: "-6px",
-              borderColor: "#b89a6e",
-              borderLeftColor: "transparent",
-              borderBottomColor: "transparent",
-            }}
-          />
-          <span
-            className="absolute w-4 h-4 border-[2px] rounded-[2px]"
-            style={{
-              bottom: "-6px",
-              left: "-6px",
-              borderColor: "#b89a6e",
-              borderRightColor: "transparent",
-              borderTopColor: "transparent",
-            }}
-          />
-          <span
-            className="absolute w-4 h-4 border-[2px] rounded-[2px]"
-            style={{
-              bottom: "-6px",
-              right: "-6px",
-              borderColor: "#b89a6e",
-              borderLeftColor: "transparent",
-              borderTopColor: "transparent",
-            }}
-          />
-        </motion.div>
-      )}
-    </div>
+          {focusIndex === i && (
+            <>
+             
+              <span className="absolute top-0 left-0 w-3 h-3 pointer-events-none" style={{ borderTop: "1.5px solid #b89a6e", borderLeft: "1.5px solid #b89a6e" }} />
+             
+              <span className="absolute top-0 right-0 w-3 h-3 pointer-events-none" style={{ borderTop: "1.5px solid #b89a6e", borderRight: "1.5px solid #b89a6e" }} />
+             
+              <span className="absolute bottom-0 left-0 w-3 h-3 pointer-events-none" style={{ borderBottom: "1.5px solid #b89a6e", borderLeft: "1.5px solid #b89a6e" }} />
+            
+              <span className="absolute bottom-0 right-0 w-3 h-3 pointer-events-none" style={{ borderBottom: "1.5px solid #b89a6e", borderRight: "1.5px solid #b89a6e" }} />
+             
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full pointer-events-none" style={{ background: "#b89a6e", boxShadow: "0 0 6px rgba(184,154,110,0.8)" }} />
+            </>
+          )}
+          {word.text}
+        </span>
+      ))}
+    </h1>
   )
 }

@@ -65,6 +65,7 @@ export default function Services() {
           src="/images/femmeha1r.jpg"
           alt="Services background"
           fill
+          sizes="100vw"
           className="object-cover brightness-[0.12] saturate-50"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#b89a6e]/15 via-[#0d1a1c]/60 to-[#b89a6e]/10" />
@@ -106,6 +107,7 @@ export default function Services() {
                   src={service.image}
                   alt={service.name}
                   fill
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 260px"
                   className="object-cover brightness-75 group-hover:scale-110 group-hover:brightness-90 transition-all duration-700"
                 />
 

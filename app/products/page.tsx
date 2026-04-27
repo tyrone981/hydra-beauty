@@ -50,6 +50,7 @@ export default function ProductsPage() {
                     src={product.image}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 260px"
                     className="object-cover hover:scale-105 transition duration-500"
                   />
                 </div>

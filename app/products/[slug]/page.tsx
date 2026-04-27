@@ -23,12 +23,12 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-[#0d1a1c] text-[#f0e8dd] px-6 py-24">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-        
         <div className="relative h-[500px] rounded-xl overflow-hidden border border-[#b89a6e]/20">
           <Image
             src={product.image}
             alt={product.name}
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
         </div>

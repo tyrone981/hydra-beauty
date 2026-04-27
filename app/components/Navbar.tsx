@@ -28,9 +28,9 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 grid grid-cols-3 items-center">
-          {/* COL 1: desktop left nav, mobile = hamburger left */}
+        
           <div className="flex items-center">
-            {/* Desktop: left nav links */}
+            
             <div className="hidden md:flex items-center gap-8">
               {[
                 { label: "About", href: "#about" },
@@ -47,7 +47,6 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Mobile: hamburger on the left */}
             <button
               className="md:hidden flex flex-col gap-1.5 p-2"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -70,14 +69,13 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* COL 2: desktop center logo, mobile = ONLY CartButton centered */}
           <div className="flex items-center justify-center">
-            {/* Mobile: only the cart in the center */}
+           
             <div className="md:hidden">
               <CartButton />
             </div>
 
-            {/* Desktop: logo centered */}
+           
             <div className="hidden md:flex justify-center">
               {!menuOpen && (
                 <a href="#" className="flex flex-col items-center gap-1">

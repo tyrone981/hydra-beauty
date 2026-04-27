@@ -81,6 +81,7 @@ export default function CartDrawer() {
                       src={item.image}
                       alt={item.name}
                       fill
+                      sizes="80px"
                       className="object-cover"
                     />
                   </div>
@@ -149,7 +150,6 @@ export default function CartDrawer() {
             </div>
           </motion.aside>
 
-         
           <AnimatePresence>
             {toast && (
               <motion.div

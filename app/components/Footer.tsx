@@ -8,13 +8,10 @@ import { AiFillTikTok } from "react-icons/ai"
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#b89a6e] py-16 px-6">
-
       <div className="absolute inset-0 bg-gradient-to-br from-[#d4b896] via-[#b89a6e] to-[#8a6e48]" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +20,13 @@ export default function Footer() {
           >
             <div className="flex items-center gap-3 mb-5">
               <div className="relative w-14 h-14 rounded-full overflow-hidden border border-[#0d1a1c]/20">
-                <Image src="/images/logo.jpg" alt="Hydra Beauty" fill className="object-cover" />
+                <Image
+                  src="/images/logo.jpg"
+                  alt="Hydra Beauty"
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
               </div>
 
               <div>
@@ -41,7 +44,6 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-3 mt-5">
-
               <a
                 href="tel:697839818"
                 className="w-9 h-9 border border-[#0d1a1c]/20 flex items-center justify-center text-[#0d1a1c] hover:bg-[#0d1a1c] hover:text-[#b89a6e] transition"
@@ -69,7 +71,6 @@ export default function Footer() {
               >
                 <AiFillTikTok />
               </a>
-
             </div>
           </motion.div>
 
@@ -129,7 +130,6 @@ export default function Footer() {
             </h4>
 
             <div className="space-y-3 text-sm text-[#0d1a1c]/80">
-
               <div className="flex gap-2">
                 <FaMapMarkerAlt />
                 <p>Akwa & New-Bell, Douala</p>
@@ -144,18 +144,14 @@ export default function Footer() {
                 <FaClock />
                 <p>7j/7 · 08h — 20h</p>
               </div>
-
             </div>
-
           </motion.div>
-
         </div>
 
         <div className="border-t border-[#0d1a1c]/20 pt-6 flex justify-between text-xs text-[#0d1a1c]/70">
-          <p>© 2026 Hydra Beauty</p>
+          <p> 2026 Hydra Beauty</p>
           <p>Douala, Cameroun</p>
         </div>
-
       </div>
     </footer>
   )
