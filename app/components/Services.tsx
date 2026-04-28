@@ -21,13 +21,13 @@ export default function Services() {
   return (
     <section id="services" className="relative overflow-hidden bg-[#b89a6e]/10 py-32 px-6">
 
-      {/* MODAL */}
+      
       {selected && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center px-4">
 
           <div className="bg-[#111f22] max-w-xl w-full rounded-2xl overflow-hidden border border-[#b89a6e]/30">
 
-            {/* IMAGE FIXED SIZE (NO fill) */}
+          
             <div className="w-full h-[320px]">
               <Image
                 src={selected.image}
@@ -64,7 +64,7 @@ export default function Services() {
         </div>
       )}
 
-      {/* GRID */}
+      
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -77,7 +77,7 @@ export default function Services() {
               viewport={{ once: true }}
               className="border border-[#b89a6e]/15 rounded-2xl overflow-hidden group hover:border-[#b89a6e]"
             >
-              {/* CLICK OPENS MODAL */}
+              
               <div
                 onClick={() => setSelected(service)}
                 className="relative h-56 cursor-pointer"
