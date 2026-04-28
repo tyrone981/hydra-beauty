@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useRef } from "react"
+
 import CircularGallery from "@/app/components/CircularGallery"
 
 const hydraItems = [
@@ -32,9 +33,10 @@ export default function Gallery() {
 
   return (
     <>
-      {/* Mobile / tablet: simple gallery */}
-      <section id="gallery" className="relative overflow-hidden bg-[#b89a6e]/10 py-32 md:hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#b89a6e]/20 via-[#0d1a1c]/70 to-[#b89a6e]/15" />
+      <section
+        id="gallery"
+        className="relative overflow-hidden bg-[#b89a6e]/10 py-32 md:hidden"
+      >
 
         <div className="max-w-7xl mx-auto px-6 mb-14 relative z-10">
           <motion.div
@@ -73,14 +75,15 @@ export default function Gallery() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.05 }}
               viewport={{ once: true }}
-              className="relative flex-shrink-0 w-[280px] h-[380px] overflow-hidden border border-[#b89a6e]/15 snap-center group"
+              className="relative flex-shrink-0 w-[280px] h-[380px] overflow-hidden border border-[#b89a6e]/15 snap-center group rounded-2xl"
             >
               <Image
                 src={img.src}
                 alt={img.label}
-                fill
+                width={280}
+                height={380}
                 sizes="280px"
-                className="object-cover transition duration-700 group-hover:scale-110 brightness-75 group-hover:brightness-90"
+                className="w-full h-full object-cover transition duration-700 group-hover:scale-110 brightness-75 group-hover:brightness-90"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d1a1c]/85 via-transparent to-transparent" />
@@ -117,9 +120,14 @@ export default function Gallery() {
         </div>
       </section>
 
-      {/* Desktop: circular gallery */}
-      <section id="gallery-desktop" className="hidden md:block bg-[#0d1a1c] py-32">
-        <div className="max-w-7xl mx-auto px-6">
+      <section
+        id="gallery-desktop"
+        className="relative hidden md:block bg-[#0d1a1c] py-32 overflow-hidden"
+      >
+        
+        
+      
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-8 h-px bg-[#b89a6e]" />
