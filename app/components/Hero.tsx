@@ -42,14 +42,16 @@ useEffect(() => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0d1a1c]">
 
-     <Image
-  src="/images/flyer-main1.jpg"
-  alt="Hydra Beauty"
-  width={500}
-  height={500}
-  priority
-  className="object-cover opacity-30 scale-105 w-full h-full"
-/>
+      
+      <Image
+        src="/images/flyer-main1.jpg"
+        alt="Hydra Beauty"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover opacity-30 scale-105"
+      />
+
       
       <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a1c] via-[#0d1a1c]/80 to-[#0d1a1c]/40" />
 
