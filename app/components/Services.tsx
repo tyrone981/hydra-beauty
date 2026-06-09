@@ -1,33 +1,28 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { useState } from "react"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
-const services = [
-  { name: "Hammam", image: "/images/flyer-main1.jpg", description: "Purifiez votre corps et votre esprit..." },
-  { name: "Gommage", image: "/images/pedicure.jpg", description: "Retrouvez une peau douce..." },
-  { name: "Massage", image: "/images/flyer-main2.jpg", description: "Massage relaxant..." },
-  { name: "Soins Visage", image: "/images/face-care.jpg", description: "Soins du visage..." },
-  { name: "Pédicure", image: "/images/pedicure1.jpg", description: "Soin des pieds..." },
-  { name: "Coiffure", image: "/images/hairs.jpg", description: "Coiffure professionnelle..." },
-  { name: "Onglerie", image: "/images/pedicure1.jpg", description: "Manucure et nails..." },
-  { name: "Coiffure femmes", image: "/images/femmeha1r.jpg", description: "Maquillage et coiffure..." },
-]
+type Service = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  image: string;
+};
 
-export default function Services() {
-  const [selected, setSelected] = useState<null | (typeof services)[0]>(null)
+export default function Services({ services }: { services: Service[] }) {
+  const [selected, setSelected] = useState<null | Service>(null);
 
   return (
-    <section id="services" className="relative overflow-hidden bg-[#b89a6e]/10 py-32 px-6">
-
-      
+    <section
+      id="services"
+      className="relative overflow-hidden bg-[#b89a6e]/10 py-32 px-6"
+    >
       {selected && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center px-4">
-
           <div className="bg-[#111f22] max-w-xl w-full rounded-2xl overflow-hidden border border-[#b89a6e]/30">
-
-          
             <div className="w-full h-[320px]">
               <Image
                 src={selected.image}
@@ -39,8 +34,12 @@ export default function Services() {
             </div>
 
             <div className="p-5">
-              <h2 className="text-[#f0e8dd] text-2xl mb-2">{selected.name}</h2>
-              <p className="text-[#c8beb4] text-sm mb-5">{selected.description}</p>
+              <h2 className="text-[#f0e8dd] text-2xl mb-2">
+                {selected.name}
+              </h2>
+              <p className="text-[#c8beb4] text-sm mb-5">
+                {selected.description}
+              </p>
 
               <div className="flex gap-3">
                 <button
@@ -59,25 +58,21 @@ export default function Services() {
                 </a>
               </div>
             </div>
-
           </div>
         </div>
       )}
 
-      
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
           {services.map((service, i) => (
             <motion.div
-              key={service.name}
+              key={service.id}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               viewport={{ once: true }}
               className="border border-[#b89a6e]/15 rounded-2xl overflow-hidden group hover:border-[#b89a6e]"
             >
-              
               <div
                 onClick={() => setSelected(service)}
                 className="relative h-56 cursor-pointer"
@@ -106,9 +101,8 @@ export default function Services() {
               </div>
             </motion.div>
           ))}
-
         </div>
       </div>
     </section>
-  )
+  );
 }

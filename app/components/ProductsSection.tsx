@@ -1,18 +1,31 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-import { products } from "@/app/data/products"
-import { useCart } from "@/app/context/CartContext"
+import { useCart } from "@/app/context/CartContext";
 
-export default function ProductsSection() {
-  const { addToCart } = useCart()
-  const featured = products.slice(0, 4)
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+  badge?: string;
+  slug: string;
+};
+
+export default function ProductsSection({ products }: { products: Product[] }) {
+  const { addToCart } = useCart();
+  const featured = products.slice(0, 4);
 
   return (
-    <section id="products" className="relative overflow-hidden py-24 px-4 md:px-8 lg:px-12 bg-[#0d1a1c]">
+    <section
+      id="products"
+      className="relative overflow-hidden py-24 px-4 md:px-8 lg:px-12 bg-[#0d1a1c]"
+    >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#b89a6e]/10 via-[#0d1a1c] to-[#b89a6e]/10" />
       </div>
@@ -108,5 +121,5 @@ export default function ProductsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
