@@ -32,7 +32,7 @@ export default function AdminHomePage() {
             Gérer les services
           </Link>
           <Link
-            href="/admin/formations"
+            href="/admin/Formations"
             className="px-4 py-3 rounded-lg border border-[#b89a6e]/40 text-sm hover:border-[#b89a6e]"
           >
             Gérer les formations
