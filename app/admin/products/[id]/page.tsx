@@ -1,7 +1,7 @@
-// app/admin/products/[id]/edit/page.tsx
+
 import { connectDB } from "@/lib/mongodb";
 import { Product } from "@/models/Product";
-import EditProductForm from "./EditProductForm";
+import EditProductForm from "./edit/EditProductForm";
 
 type RouteParams = {
   id: string;
