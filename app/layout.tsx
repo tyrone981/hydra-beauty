@@ -6,13 +6,11 @@ import { CartProvider } from "./context/CartContext"
 import CartDrawer from "./components/CartDrawer"
 import Toast from "./components/Toast"
 
-
-
 const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geist = Geist({
   subsets: ["latin"],
+  fallback: ["system-ui", "sans-serif"], 
 });
 
 const geistMono = Geist_Mono({
@@ -32,14 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-mono", jetbrainsMono.variable)}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">  {/* ← Removed geist.variable */}
         <CartProvider>
          <CartDrawer />
           <Toast />
           {children}
-           
         </CartProvider>
       </body>
     </html>
