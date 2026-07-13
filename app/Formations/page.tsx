@@ -41,7 +41,7 @@ export default async function FormationsPage() {
             <div className="h-56 w-full overflow-hidden">
               <img
                 src={formation.image}
-                alt={formation.name}
+                alt={formation.title}
                 className="h-full w-full object-cover"
               />
             </div>
