@@ -19,7 +19,7 @@ export default async function EditFormationPage(props: { params: Promise<RoutePa
   const formation = {
     id: doc._id.toString(),
     slug: doc.slug ?? "",
-    name: doc.name ?? doc.title ?? "",
+    title: doc.title ?? "",
     description: doc.description ?? "",
     details: doc.details ?? "",
     image: doc.image ?? "",
