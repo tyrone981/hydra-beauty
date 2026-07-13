@@ -1,27 +1,26 @@
+// app/admin/Formations/new/page.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function NewFormationPage() {
   const router = useRouter();
 
   const [form, setForm] = useState({
     slug: "",
-    name: "",
+    title: "",
     description: "",
     details: "",
-    image: "",
     duration: "",
     price: "",
-    category: "Formation", // Default locked to Formation
+    category: "Formation",
     available: true,
   });
 
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -35,61 +34,13 @@ export default function NewFormationPage() {
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0] || null;
-    setFile(f);
-  };
-
-  const handleUploadImage = async () => {
-    if (!file) {
-      alert("Choisissez un fichier d'abord.");
-      return;
-    }
-
-    setUploading(true);
-    setError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Erreur lors du téléchargement");
-      }
-
-      setForm((prev) => ({
-        ...prev,
-        image: data.url,
-      }));
-
-      setFile(null);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    if (!form.image) {
-      setError("L'image de la formation est obligatoire.");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const res = await fetch("/api/services", {
+      const res = await fetch("/api/Formations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -104,7 +55,7 @@ export default function NewFormationPage() {
         throw new Error(data.error || "Failed to create formation");
       }
 
-      router.push("/admin/formations");
+      router.push("/admin/Formations");
       router.refresh();
     } catch (err: any) {
       setError(err.message);
@@ -113,124 +64,121 @@ export default function NewFormationPage() {
     }
   };
 
-  const imageMissing = !form.image;
-
   return (
-    <main className="container mx-auto max-w-2xl px-4 py-10">
-      <h1 className="mb-6 text-2xl font-bold">Nouvelle Formation</h1>
+    <main className="min-h-screen bg-[#0d1a1c] text-[#f0e8dd] px-6 py-10">
+      <div className="max-w-3xl mx-auto">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Nouvelle Formation</h1>
+            <p className="mt-1 text-sm text-gray-400">
+              Créez une nouvelle formation pour vos clients.
+            </p>
+          </div>
+          <Link
+            href="/admin/Formations"
+            className="rounded-lg border border-[#b89a6e]/30 px-4 py-2 text-sm text-[#b89a6e] hover:bg-[#b89a6e] hover:text-[#0d1a1c] transition"
+          >
+            Retour
+          </Link>
+        </div>
 
-      {error && <p className="mb-4 text-red-600">{error}</p>}
-
-      <form onSubmit={handleSubmit} className="grid gap-4 rounded-xl p-6 border bg-white shadow-sm">
-        <input
-          name="name"
-          placeholder="Nom de la formation"
-          value={form.name}
-          onChange={handleChange}
-          className="rounded-lg border px-4 py-3"
-          required
-        />
-
-        <input
-          name="slug"
-          placeholder="Slug (ex: formation-soin-visage)"
-          value={form.slug}
-          onChange={handleChange}
-          className="rounded-lg border px-4 py-3"
-          required
-        />
-
-        <input
-          name="category"
-          placeholder="Catégorie"
-          value={form.category}
-          onChange={handleChange}
-          className="rounded-lg border px-4 py-3"
-        />
-
-        <input
-          name="duration"
-          placeholder="Durée (ex: 3 jours, 12 heures)"
-          value={form.duration}
-          onChange={handleChange}
-          className="rounded-lg border px-4 py-3"
-        />
-
-        <input
-          name="price"
-          type="number"
-          placeholder="Prix (FCFA)"
-          value={form.price}
-          onChange={handleChange}
-          className="rounded-lg border px-4 py-3"
-        />
-
-        {form.image && (
-          <div className="flex items-center gap-3">
-            <img
-              src={form.image}
-              alt="Formation Preview"
-              className="w-20 h-20 object-cover rounded border"
-            />
-            <span className="text-xs text-gray-500 break-all">{form.image}</span>
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+            {error}
           </div>
         )}
 
-        <div className="border rounded px-3 py-3 flex flex-col gap-2">
-          <label className="text-sm font-medium">
-            Image d&apos;illustration <span className="text-red-500">*</span>
-          </label>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-          <button
-            type="button"
-            onClick={handleUploadImage}
-            disabled={uploading || !file}
-            className="mt-1 inline-flex items-center justify-center rounded bg-black px-3 py-2 text-xs font-medium text-white disabled:opacity-60"
-          >
-            {uploading ? "Téléchargement..." : "Uploader l'image"}
-          </button>
-          {imageMissing && (
-            <p className="mt-1 text-xs text-red-500">
-              Veuillez uploader une image avant d&apos;enregistrer.
-            </p>
-          )}
-        </div>
-
-        <textarea
-          name="description"
-          placeholder="Brève description"
-          value={form.description}
-          onChange={handleChange}
-          className="min-h-[110px] rounded-lg border px-4 py-3"
-          required
-        />
-
-        <textarea
-          name="details"
-          placeholder="Programme détaillé & informations supplémentaires"
-          value={form.details}
-          onChange={handleChange}
-          className="min-h-[140px] rounded-lg border px-4 py-3"
-        />
-
-        <label className="flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-[#b89a6e]/25 bg-[#111f22] p-6 shadow-sm">
           <input
-            type="checkbox"
-            name="available"
-            checked={form.available}
+            name="title"
+            placeholder="Titre de la formation"
+            value={form.title}
             onChange={handleChange}
+            className="w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+            required
           />
-          <span>Disponible aux inscriptions</span>
-        </label>
 
-        <button
-          type="submit"
-          disabled={loading || imageMissing}
-          className="rounded-lg bg-black px-5 py-3 text-white disabled:opacity-60"
-        >
-          {loading ? "Enregistrement..." : "Créer la formation"}
-        </button>
-      </form>
+          <input
+            name="slug"
+            placeholder="Slug (ex: formation-soin-visage)"
+            value={form.slug}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+            required
+          />
+
+          <input
+            name="category"
+            placeholder="Catégorie"
+            value={form.category}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+          />
+
+          <input
+            name="duration"
+            placeholder="Durée (ex: 3 jours, 12 heures)"
+            value={form.duration}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+          />
+
+          <input
+            name="price"
+            type="number"
+            placeholder="Prix (FCFA)"
+            value={form.price}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+          />
+
+          <textarea
+            name="description"
+            placeholder="Brève description"
+            value={form.description}
+            onChange={handleChange}
+            rows={3}
+            className="min-h-[110px] w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+            required
+          />
+
+          <textarea
+            name="details"
+            placeholder="Programme détaillé (séparez les modules par des virgules)"
+            value={form.details}
+            onChange={handleChange}
+            rows={4}
+            className="min-h-[140px] w-full rounded-lg border border-[#b89a6e]/25 bg-[#0d1a1c] px-4 py-3 text-[#f0e8dd] placeholder:text-gray-500 focus:border-[#b89a6e] focus:outline-none"
+          />
+
+          <label className="flex items-center gap-2 text-[#c8beb4]">
+            <input
+              type="checkbox"
+              name="available"
+              checked={form.available}
+              onChange={handleChange}
+              className="h-4 w-4 rounded border-[#b89a6e]/25 bg-[#0d1a1c] text-[#b89a6e] focus:ring-[#b89a6e]"
+            />
+            <span>Disponible aux inscriptions</span>
+          </label>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="rounded-lg bg-[#b89a6e] px-6 py-3 text-sm font-medium text-[#0d1a1c] hover:bg-[#d1b489] transition disabled:opacity-50"
+            >
+              {loading ? "Enregistrement..." : "Créer la formation"}
+            </button>
+            <Link
+              href="/admin/Formations"
+              className="rounded-lg border border-[#b89a6e]/30 px-6 py-3 text-sm text-[#b89a6e] hover:bg-[#b89a6e] hover:text-[#0d1a1c] transition"
+            >
+              Annuler
+            </Link>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

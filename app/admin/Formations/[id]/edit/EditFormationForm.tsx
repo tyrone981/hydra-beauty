@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 type FormationType = {
   id: string;
   slug: string;
-  name: string;
+  title: string;  // ← Changed from 'name' to 'title'
   description: string;
   details?: string;
   image: string;
@@ -21,7 +21,7 @@ export default function EditFormationForm({ formation }: { formation: FormationT
 
   const [form, setForm] = useState({
     slug: formation.slug || "",
-    name: formation.name || "",
+    title: formation.title || "",  // ← Changed from 'name' to 'title'
     description: formation.description || "",
     details: formation.details || "",
     image: formation.image || "",
@@ -103,7 +103,7 @@ export default function EditFormationForm({ formation }: { formation: FormationT
     }
 
     try {
-      const res = await fetch(`/api/services/${formation.id}`, {
+      const res = await fetch(`/api/Formations/${formation.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function EditFormationForm({ formation }: { formation: FormationT
         throw new Error(data.error || "Failed to update formation");
       }
 
-      router.push("/admin/formations");
+      router.push("/admin/Formations");  // ← Changed to capital F
       router.refresh();
     } catch (err: any) {
       setError(err.message);
@@ -134,7 +134,7 @@ export default function EditFormationForm({ formation }: { formation: FormationT
     setError(null);
 
     try {
-      const res = await fetch(`/api/services/${formation.id}`, {
+      const res = await fetch(`/api/Formations/${formation.id}`, {
         method: "DELETE",
       });
 
@@ -144,7 +144,7 @@ export default function EditFormationForm({ formation }: { formation: FormationT
         throw new Error(data.error || "Failed to delete formation");
       }
 
-      router.push("/admin/formations");
+      router.push("/admin/Formations");  // ← Changed to capital F
       router.refresh();
     } catch (err: any) {
       setError(err.message);
@@ -159,9 +159,9 @@ export default function EditFormationForm({ formation }: { formation: FormationT
       {error && <p className="text-red-600">{error}</p>}
 
       <input
-        name="name"
-        placeholder="Nom de la formation"
-        value={form.name}
+        name="title"  // ← Changed from 'name' to 'title'
+        placeholder="Titre de la formation"
+        value={form.title}  // ← Changed from form.name to form.title
         onChange={handleChange}
         className="rounded-lg border px-4 py-3"
         required

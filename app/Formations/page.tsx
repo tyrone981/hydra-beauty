@@ -14,7 +14,7 @@ export default async function FormationsPage() {
   const formations = docs.map((formation: any) => ({
     id: formation._id.toString(),
     slug: formation.slug ?? "",
-    name: formation.name ?? "",
+     title: formation.title ?? "", 
     description: formation.description ?? "",
     image: formation.image ?? "",
     duration: formation.duration ?? "",
@@ -51,7 +51,7 @@ export default async function FormationsPage() {
                   {formation.category}
                 </p>
               )}
-              <h2 className="text-lg font-semibold">{formation.name}</h2>
+              <h2 className="text-lg font-semibold">{formation.title}</h2>
               <p className="mt-2 line-clamp-3 text-sm text-gray-600">
                 {formation.description}
               </p>

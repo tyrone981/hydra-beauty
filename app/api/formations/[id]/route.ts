@@ -1,53 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
+// app/api/Formations/[id]/route.ts
 import { connectDB } from "@/lib/mongodb";
 import { Formation } from "@/models/Formation";
-
-type RouteParams = { id: string };
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-export async function GET(_req: NextRequest, props: { params: Promise<RouteParams> }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   await connectDB();
-  const { id } = await props.params;
-  const formation = await Formation.findById(id).lean();
-  if (!formation) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const { id } = await params;
+  
+  if (!id) {
+    return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
-  return NextResponse.json(formation);
-}
-
-export async function PATCH(req: NextRequest, props: { params: Promise<RouteParams> }) {
-  await connectDB();
-  const { id } = await props.params;
-  const data = await req.json();
-
-  try {
-    const formation = await Formation.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
-    }).lean();
-
-    if (!formation) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(formation);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Failed to update formation" },
-      { status: 400 }
-    );
-  }
-}
-
-export async function DELETE(_req: NextRequest, props: { params: Promise<RouteParams> }) {
-  await connectDB();
-  const { id } = await props.params;
-
-  const deleted = await Formation.findByIdAndDelete(id).lean?.();
+  
+  const deleted = await Formation.findByIdAndDelete(id);
   if (!deleted) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ success: true });
 }

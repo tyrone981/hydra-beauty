@@ -66,40 +66,67 @@ export default function Services({ services }: { services: Service[] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, i) => (
             <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              viewport={{ once: true }}
-              className="border border-[#b89a6e]/15 rounded-2xl overflow-hidden group hover:border-[#b89a6e]"
-            >
-              <div
-                onClick={() => setSelected(service)}
-                className="relative h-56 cursor-pointer"
-              >
-                <Image
-                  src={service.image}
-                  alt={service.name}
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
-              </div>
+  key={service.id}
+  initial={{ opacity: 0, y: 25 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ delay: i * 0.08 }}
+  viewport={{ once: true }}
+  whileHover={{ y: -8 }}
+  className="group h-full overflow-hidden rounded-2xl border border-[#b89a6e]/15 bg-[#111f22]/70 backdrop-blur-sm transition-all duration-500 hover:border-[#b89a6e] hover:shadow-[0_0_30px_rgba(184,154,110,0.15)]"
+>
+  <div
+    onClick={() => setSelected(service)}
+    className="relative h-64 cursor-pointer overflow-hidden"
+  >
+    <Image
+      src={service.image}
+      alt={service.name}
+      fill
+      className="object-cover transition duration-700 group-hover:scale-110"
+    />
 
-              <div className="p-5 bg-[#111f22]">
-                <h3 className="text-[#f0e8dd] text-xl mb-2">
-                  {service.name}
-                </h3>
+    {/* Overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-[#0d1a1c] via-[#0d1a1c]/30 to-transparent" />
 
-                <a
-                  href="https://wa.me/237697839818"
-                  target="_blank"
-                  className="text-[#b89a6e] text-xs uppercase hover:text-[#f0e8dd] transition"
-                >
-                  Réserver
-                </a>
-              </div>
-            </motion.div>
+    {/* Badge */}
+    <div className="absolute top-4 left-4 rounded-full border border-[#b89a6e]/30 bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[#b89a6e] backdrop-blur-md">
+      Soin Premium
+    </div>
+
+    {/* Title */}
+    <div className="absolute bottom-5 left-5 right-5">
+      <h3 className="font-cormorant text-3xl italic text-[#f0e8dd]">
+        {service.name}
+      </h3>
+    </div>
+  </div>
+
+  <div className="flex h-[180px] flex-col p-6">
+    <p className="line-clamp-2 text-sm leading-7 text-[#c8beb4]">
+      {service.description}
+    </p>
+
+    <div className="my-5 h-px bg-[#b89a6e]/15" />
+
+    <div className="mt-auto flex gap-3">
+      <button
+        onClick={() => setSelected(service)}
+        className="flex-1 rounded-xl border border-[#b89a6e]/20 py-3 text-xs uppercase tracking-[0.2em] text-[#b89a6e] transition hover:bg-[#b89a6e] hover:text-[#0d1a1c]"
+      >
+        Découvrir
+      </button>
+
+      <a
+        href="https://wa.me/237697839818"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 rounded-xl bg-[#b89a6e] py-3 text-center text-xs uppercase tracking-[0.2em] text-[#0d1a1c] transition hover:bg-[#c7aa7d]"
+      >
+        Réserver
+      </a>
+    </div>
+  </div>
+</motion.div>
           ))}
         </div>
       </div>

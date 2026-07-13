@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "MONGODB_URI": "mongodb+srv://yvanleonissoa_db_user:Test123456@cluster0.miysojn.mongodb.net/hydra-beauty?retryWrites=true&w=majority"
+    }
+  }
+}

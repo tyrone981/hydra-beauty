@@ -1,12 +1,12 @@
 import { connectDB } from "@/lib/mongodb";
 import { Service } from "@/models/Service";
-import EditFormationForm from "./edit/EditFormationForm";
+import EditFormationForm from "./EditFormationForm";
 
 type RouteParams = { id: string };
 
 export const runtime = "nodejs";
 
-export default async function EditFormationPage(props: { params: Promise<RouteParams> }) {
+export default async function EditFormationRoutePage(props: { params: Promise<RouteParams> }) {
   await connectDB();
   const { id } = await props.params;
 

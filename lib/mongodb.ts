@@ -1,11 +1,8 @@
 // lib/mongodb.ts
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://yvanleonissoa_db_user:MyPassword123@cluster0.miysojn.mongodb.net/hydra-beauty?retryWrites=true&w=majority';
-
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable in .env.local");
-}
+// Try with different options
+const MONGODB_URI = 'mongodb+srv://yvanleonissoa_db_user:MyPassword123@cluster0.miysojn.mongodb.net/hydra-beauty?retryWrites=true&w=majority';
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -29,9 +26,16 @@ export async function connectDB() {
     cached!.promise = mongoose.connect(MONGODB_URI, {
       bufferCommands: false,
       dbName: "hydra-beauty",
+      serverSelectionTimeoutMS: 30000, // Increase timeout
+      socketTimeoutMS: 45000,
     });
   }
 
-  cached!.conn = await cached!.promise;
-  return cached!.conn;
+  try {
+    cached!.conn = await cached!.promise;
+    return cached!.conn;
+  } catch (error) {
+    cached!.promise = null;
+    throw error;
+  }
 }

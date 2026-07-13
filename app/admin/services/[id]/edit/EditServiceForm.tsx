@@ -8,11 +8,9 @@ type ServiceType = {
   slug: string;
   name: string;
   description: string;
-  details?: string;
   image: string;
-  duration?: string;
-  price?: number | null;
   category?: string;
+  price?: number | null;
   available: boolean;
 };
 
@@ -23,11 +21,9 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
     slug: service.slug || "",
     name: service.name || "",
     description: service.description || "",
-    details: service.details || "",
     image: service.image || "",
-    duration: service.duration || "",
-    price: service.price != null ? String(service.price) : "",
     category: service.category || "",
+    price: service.price != null ? String(service.price) : "",
     available: !!service.available,
   });
 
@@ -128,7 +124,7 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
   };
 
   const handleDelete = async () => {
-    if (!confirm("Delete this service?")) return;
+    if (!confirm("Supprimer ce service définitivement ?")) return;
 
     setDeleting(true);
     setError(null);
@@ -155,12 +151,12 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
   const imageMissing = !form.image;
 
   return (
-    <form onSubmit={handleUpdate} className="grid gap-4 rounded-xl  p-6">
+    <form onSubmit={handleUpdate} className="grid gap-4 rounded-xl p-6 border bg-white shadow-sm">
       {error && <p className="text-red-600">{error}</p>}
 
       <input
         name="name"
-        placeholder="Name"
+        placeholder="Nom du service"
         value={form.name}
         onChange={handleChange}
         className="rounded-lg border px-4 py-3"
@@ -178,16 +174,8 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
 
       <input
         name="category"
-        placeholder="Category"
+        placeholder="Catégorie"
         value={form.category}
-        onChange={handleChange}
-        className="rounded-lg border px-4 py-3"
-      />
-
-      <input
-        name="duration"
-        placeholder="Duration"
-        value={form.duration}
         onChange={handleChange}
         className="rounded-lg border px-4 py-3"
       />
@@ -195,13 +183,12 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
       <input
         name="price"
         type="number"
-        placeholder="Price (FCFA)"
+        placeholder="Prix (FCFA)"
         value={form.price}
         onChange={handleChange}
         className="rounded-lg border px-4 py-3"
       />
 
-      {/* current image preview */}
       {form.image && (
         <div className="flex items-center gap-3">
           <img
@@ -213,7 +200,6 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
         </div>
       )}
 
-      {/* upload block */}
       <div className="border rounded px-3 py-3 flex flex-col gap-2">
         <label className="text-sm font-medium">
           Image du service <span className="text-red-500">*</span>
@@ -236,19 +222,11 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
 
       <textarea
         name="description"
-        placeholder="Short description"
+        placeholder="Description"
         value={form.description}
         onChange={handleChange}
         className="min-h-[110px] rounded-lg border px-4 py-3"
         required
-      />
-
-      <textarea
-        name="details"
-        placeholder="Detailed content"
-        value={form.details}
-        onChange={handleChange}
-        className="min-h-[140px] rounded-lg border px-4 py-3"
       />
 
       <label className="flex items-center gap-2">
@@ -258,7 +236,7 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
           checked={form.available}
           onChange={handleChange}
         />
-        <span>Available</span>
+        <span>Disponible</span>
       </label>
 
       <div className="flex gap-3">
@@ -267,7 +245,7 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
           disabled={loading || imageMissing}
           className="rounded-lg bg-black px-5 py-3 text-white disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save changes"}
+          {loading ? "Enregistrement..." : "Sauvegarder les modifications"}
         </button>
         <button
           type="button"
@@ -275,7 +253,7 @@ export default function EditServiceForm({ service }: { service: ServiceType }) {
           disabled={deleting}
           className="rounded-lg border border-red-500 px-5 py-3 text-red-600 disabled:opacity-60"
         >
-          {deleting ? "Deleting..." : "Delete"}
+          {deleting ? "Suppression..." : "Supprimer"}
         </button>
       </div>
     </form>

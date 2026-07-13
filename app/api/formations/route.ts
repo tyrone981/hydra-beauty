@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Formation } from "@/models/Formation";
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
@@ -10,9 +10,16 @@ export async function GET() {
   return NextResponse.json(formations);
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   await connectDB();
-  const body = await req.json();
-  const formation = await Formation.create(body);
+  const body = await request.json();
+  
+  const formationData = {
+    ...body,
+    title: body.title || body.name,
+  };
+  delete formationData.name;
+  
+  const formation = await Formation.create(formationData);
   return NextResponse.json(formation, { status: 201 });
 }
