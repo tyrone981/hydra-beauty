@@ -1,16 +1,17 @@
+// app/admin/Formations/[id]/edit/page.tsx
 import { connectDB } from "@/lib/mongodb";
-import { Service } from "@/models/Service";
+import { Formation } from "@/models/Formation";
 import EditFormationForm from "./EditFormationForm";
 
 type RouteParams = { id: string };
 
 export const runtime = "nodejs";
 
-export default async function EditFormationRoutePage(props: { params: Promise<RouteParams> }) {
+export default async function EditFormationPage(props: { params: Promise<RouteParams> }) {
   await connectDB();
   const { id } = await props.params;
 
-  const doc = await Service.findById(id).lean();
+  const doc = await Formation.findById(id).lean();
 
   if (!doc) {
     return <div className="p-8">Formation introuvable.</div>;
@@ -19,7 +20,7 @@ export default async function EditFormationRoutePage(props: { params: Promise<Ro
   const formation = {
     id: doc._id.toString(),
     slug: doc.slug ?? "",
-    name: doc.name ?? doc.title ?? "",
+    title: doc.title ?? "",        // ← Changed from 'name' to 'title'
     description: doc.description ?? "",
     details: doc.details ?? "",
     image: doc.image ?? "",
