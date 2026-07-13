@@ -1,7 +1,7 @@
 
 import { connectDB } from "@/lib/mongodb";
 import { Service } from "@/models/Service";
-import EditServiceForm from "./EditServiceForm";
+import EditServiceForm from "./edit/EditServiceForm";
 
 
 
